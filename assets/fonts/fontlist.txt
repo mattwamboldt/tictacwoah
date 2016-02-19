@@ -1,0 +1,2 @@
+debug	VeraMono.ttf	24
+menu	kaiju.ttf	28

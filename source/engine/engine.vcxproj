@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="app\application.h" />
+    <ClInclude Include="app\audio\audio.h" />
+    <ClInclude Include="app\core\math\vector.h" />
+    <ClInclude Include="app\core\timer.h" />
+    <ClInclude Include="app\debug\logging.h" />
+    <ClInclude Include="app\event\eventmanager.h" />
+    <ClInclude Include="app\event\fastdelegate.h" />
+    <ClInclude Include="app\event\ievent.h" />
+    <ClInclude Include="app\input\inputinterfaces.h" />
+    <ClInclude Include="app\options\options.h" />
+    <ClInclude Include="app\parsers\xml\tinyxml2.h" />
+    <ClInclude Include="app\physics\boxcollider.h" />
+    <ClInclude Include="app\resource\resourcemanager.h" />
+    <ClInclude Include="app\util\macros.h" />
+    <ClInclude Include="logic\igamelogic.h" />
+    <ClInclude Include="view\human\humanview.h" />
+    <ClInclude Include="view\igameview.h" />
+    <ClInclude Include="view\render\2d\displayobject.h" />
+    <ClInclude Include="view\render\color.h" />
+    <ClInclude Include="view\render\spriter\file\filefactory.h" />
+    <ClInclude Include="view\render\spriter\file\sdlimagefile.h" />
+    <ClInclude Include="view\render\spriter\file\sdlsoundfile.h" />
+    <ClInclude Include="view\render\spriter\object\objectfactory.h" />
+    <ClInclude Include="view\render\spriter\object\sdlboneinstanceinfo.h" />
+    <ClInclude Include="view\render\spriter\object\sdlboxinstanceinfo.h" />
+    <ClInclude Include="view\render\spriter\object\sdlpointinstanceinfo.h" />
+    <ClInclude Include="view\render\spriter\object\sdlsoundobjectinforeference.h" />
+    <ClInclude Include="view\render\spriter\xmlwrapper\tinyxmlspriterfileattributewrapper.h" />
+    <ClInclude Include="view\render\spriter\xmlwrapper\tinyxmlspriterfiledocumentwrapper.h" />
+    <ClInclude Include="view\render\spriter\xmlwrapper\tinyxmlspriterfileelementwrapper.h" />
+    <ClInclude Include="view\render\ui\console.h" />
+    <ClInclude Include="view\render\ui\textbox.h" />
+    <ClInclude Include="view\ui\containers\verticalmenu.h" />
+    <ClInclude Include="view\ui\core\button.h" />
+    <ClInclude Include="view\ui\core\image.h" />
+    <ClInclude Include="view\ui\core\screenobject.h" />
+    <ClInclude Include="view\ui\core\screenobjectcontainer.h" />
+    <ClInclude Include="view\ui\core\text.h" />
+    <ClInclude Include="view\ui\screen\screen.h" />
+    <ClInclude Include="view\ui\screen\screenmanager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="app\application.cpp" />
+    <ClCompile Include="app\audio\audio.cpp" />
+    <ClCompile Include="app\core\math\vector.cpp" />
+    <ClCompile Include="app\core\timer.cpp" />
+    <ClCompile Include="app\debug\logging.cpp" />
+    <ClCompile Include="app\event\eventmanager.cpp" />
+    <ClCompile Include="app\options\options.cpp" />
+    <ClCompile Include="app\parsers\xml\tinyxml2.cpp" />
+    <ClCompile Include="app\physics\boxcollider.cpp" />
+    <ClCompile Include="app\resource\resourcemanager.cpp" />
+    <ClCompile Include="view\human\humanview.cpp" />
+    <ClCompile Include="view\render\2d\displayobject.cpp" />
+    <ClCompile Include="view\render\spriter\file\filefactory.cpp" />
+    <ClCompile Include="view\render\spriter\file\sdlimagefile.cpp" />
+    <ClCompile Include="view\render\spriter\file\sdlsoundfile.cpp" />
+    <ClCompile Include="view\render\spriter\object\objectfactory.cpp" />
+    <ClCompile Include="view\render\spriter\object\sdlboneinstanceinfo.cpp" />
+    <ClCompile Include="view\render\spriter\object\sdlboxinstanceinfo.cpp" />
+    <ClCompile Include="view\render\spriter\object\sdlpointinstanceinfo.cpp" />
+    <ClCompile Include="view\render\spriter\xmlwrapper\tinyxmlspriterfileattributewrapper.cpp" />
+    <ClCompile Include="view\render\spriter\xmlwrapper\tinyxmlspriterfiledocumentwrapper.cpp" />
+    <ClCompile Include="view\render\spriter\xmlwrapper\tinyxmlspriterfileelementwrapper.cpp" />
+    <ClCompile Include="view\render\ui\console.cpp" />
+    <ClCompile Include="view\render\ui\textbox.cpp" />
+    <ClCompile Include="view\ui\containers\verticalmenu.cpp" />
+    <ClCompile Include="view\ui\core\button.cpp" />
+    <ClCompile Include="view\ui\core\image.cpp" />
+    <ClCompile Include="view\ui\core\screenobject.cpp" />
+    <ClCompile Include="view\ui\core\screenobjectcontainer.cpp" />
+    <ClCompile Include="view\ui\core\text.cpp" />
+    <ClCompile Include="view\ui\screen\screen.cpp" />
+    <ClCompile Include="view\ui\screen\screenmanager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\thirdparty\spriterengine\spriterengine.vcxproj">
+      <Project>{ec902f13-1e54-4dd0-a887-0a3a5bc1cc29}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{84F73846-173D-4FB8-8B70-BB80777DA2BA}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>engine</RootNamespace>
+    <ProjectName>engine</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\lib\$(Configuration)\</OutDir>
+    <IntDir>..\..\temp\code\$(ProjectName)\$(Platform)_$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)thirdparty\include;$(SolutionDir)engine;$(SolutionDir)thirdparty;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)thirdparty\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\lib\$(Configuration)\</OutDir>
+    <IntDir>..\..\temp\code\$(ProjectName)\$(Platform)_$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)thirdparty\include;$(SolutionDir)engine;$(SolutionDir)thirdparty;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)thirdparty\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

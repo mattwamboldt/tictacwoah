@@ -1,0 +1,17 @@
+syntax: glob
+temp
+*.filters
+*.user
+source/lib
+*.suo
+*.sdf
+*.opensdf
+test/**/*.*
+source/thirdparty/lib/spriterengine
+game/audio
+game/fonts
+game/images
+game/strings
+*.pdb
+test/*.dll
+test/tictacwoah.exe

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strings>
+ <string id="TITLE" value="TIC TAC WOAH!" />
+ <string id="MODE_BASIC" value="Basic" />
+ <string id="MODE_BIGBOARD" value="Big Board" />
+ <string id="MODE_NINJA" value="Ninja" />
+ <string id="MODE_RECURSION" value="Recursion" />
+ <string id="QUIT" value="Quit" />
+ <string id="CONFIRM" value="Yes" />
+ <string id="CANCEL" value="No" />
+ <string id="BACK" value="Back" />
+ <string id="OPTIONS" value="Options" />
+ <string id="OPT_MASTER_VOLUME" value="Volume" />
+ <string id="OPT_MUSIC_VOLUME" value="Music" />
+ <string id="OPT_SFX_VOLUME" value="SFX" />
+ <string id="RESUME" value="Resume" />
+ <string id="QUIT_TO_MAIN" value="Quit to Menu" />
+ 
+ 
+ <!-- Pre match screen -->
+ <string id="DIFFICULTY_TITLE" value="Choose Difficulty" />
+ <string id="DIFFICULTY_EASY" value="Easy" />
+ <string id="DIFFICULTY_MEDIUM" value="Medium" />
+ <string id="DIFFICULTY_HARD" value="Hard" />
+ 
+ <!-- Opening Challenge Scene -->
+ <string id="OPEN001TIC" value="Hey..." />
+ <string id="OPEN002TIC" value="Wanna play some Tic Tac Toe?" />
+ <string id="OPEN003TIC" value="Did you even try? Let's play again." />
+ <string id="OPEN004TIC" value="Woah you know some manuevers. Better step my game up." />
+</strings>

@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EC902F13-1E54-4DD0-A887-0A3A5BC1CC29}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>spriterengine</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>spriterengine</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)..\lib\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\temp\code\$(ProjectName)\$(Platform)_$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)..\lib\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\temp\code\$(ProjectName)\$(Platform)_$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <Profile>true</Profile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <Profile>true</Profile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="animation\animation.cpp" />
+    <ClCompile Include="animation\animationinstance.cpp" />
+    <ClCompile Include="animation\mainlinekey.cpp" />
+    <ClCompile Include="animation\mainlinekeyinstance.cpp" />
+    <ClCompile Include="charactermap\charactermap.cpp" />
+    <ClCompile Include="charactermap\charactermapinstruction.cpp" />
+    <ClCompile Include="entity\entity.cpp" />
+    <ClCompile Include="entity\entityinstance.cpp" />
+    <ClCompile Include="entity\entityinstancedata.cpp" />
+    <ClCompile Include="entity\object.cpp" />
+    <ClCompile Include="file\file.cpp" />
+    <ClCompile Include="file\filereference.cpp" />
+    <ClCompile Include="global\settings.cpp" />
+    <ClCompile Include="loading\loader.cpp" />
+    <ClCompile Include="loading\loadinghelpers.cpp" />
+    <ClCompile Include="loading\spriterdocumentloader.cpp" />
+    <ClCompile Include="model\spritermodel.cpp" />
+    <ClCompile Include="objectinfo\angleinfo.cpp" />
+    <ClCompile Include="objectinfo\boneinstanceinfo.cpp" />
+    <ClCompile Include="objectinfo\boneobjectinfo.cpp" />
+    <ClCompile Include="objectinfo\boxinstanceinfo.cpp" />
+    <ClCompile Include="objectinfo\boxobjectinfo.cpp" />
+    <ClCompile Include="objectinfo\entityobjectinfo.cpp" />
+    <ClCompile Include="objectinfo\intvariableinfo.cpp" />
+    <ClCompile Include="objectinfo\pointinstanceinfo.cpp" />
+    <ClCompile Include="objectinfo\pointobjectinfo.cpp" />
+    <ClCompile Include="objectinfo\realvariableinfo.cpp" />
+    <ClCompile Include="objectinfo\soundobjectinfo.cpp" />
+    <ClCompile Include="objectinfo\spriteobjectinfo.cpp" />
+    <ClCompile Include="objectinfo\stringvariableinfo.cpp" />
+    <ClCompile Include="objectinfo\stringvariableinforeference.cpp" />
+    <ClCompile Include="objectinfo\taglist.cpp" />
+    <ClCompile Include="objectinfo\tagobjectinfo.cpp" />
+    <ClCompile Include="objectinfo\tagobjectinforeference.cpp" />
+    <ClCompile Include="objectinfo\triggerobjectinfo.cpp" />
+    <ClCompile Include="objectinfo\universalobjectinterface.cpp" />
+    <ClCompile Include="objectref\bonerefinstance.cpp" />
+    <ClCompile Include="objectref\boneref.cpp" />
+    <ClCompile Include="objectref\entityref.cpp" />
+    <ClCompile Include="objectref\entityrefinstance.cpp" />
+    <ClCompile Include="objectref\objectref.cpp" />
+    <ClCompile Include="objectref\objectrefinstance.cpp" />
+    <ClCompile Include="objectref\spriterefinstance.cpp" />
+    <ClCompile Include="objectref\spriteref.cpp" />
+    <ClCompile Include="objectref\transformprocessor.cpp" />
+    <ClCompile Include="override\filefactory.cpp" />
+    <ClCompile Include="override\imagefile.cpp" />
+    <ClCompile Include="override\objectfactory.cpp" />
+    <ClCompile Include="override\soundfile.cpp" />
+    <ClCompile Include="override\soundobjectinforeference.cpp" />
+    <ClCompile Include="override\spriterfileattributewrapper.cpp" />
+    <ClCompile Include="override\spriterfiledocumentwrapper.cpp" />
+    <ClCompile Include="override\spriterfileelementwrapper.cpp" />
+    <ClCompile Include="timeinfo\beziereasingcurve.cpp" />
+    <ClCompile Include="timeinfo\cubiceasingcurve.cpp" />
+    <ClCompile Include="timeinfo\easingcurveinterface.cpp" />
+    <ClCompile Include="timeinfo\instanteasingcurve.cpp" />
+    <ClCompile Include="timeinfo\lineareasingcurve.cpp" />
+    <ClCompile Include="timeinfo\quadraticeasingcurve.cpp" />
+    <ClCompile Include="timeinfo\quarticeasingcurve.cpp" />
+    <ClCompile Include="timeinfo\quinticeasingcurve.cpp" />
+    <ClCompile Include="timeinfo\timeinfo.cpp" />
+    <ClCompile Include="timeline\proxytimelinekey.cpp" />
+    <ClCompile Include="timeline\soundtimelineinstance.cpp" />
+    <ClCompile Include="timeline\tagtimelineinstance.cpp" />
+    <ClCompile Include="timeline\timeline.cpp" />
+    <ClCompile Include="timeline\timelineinstance.cpp" />
+    <ClCompile Include="timeline\timelinekey.cpp" />
+    <ClCompile Include="timeline\triggertimelineinstance.cpp" />
+    <ClCompile Include="timeline\variabletimelineinstance.cpp" />
+    <ClCompile Include="variable\variable.cpp" />
+    <ClCompile Include="variable\variablecontainer.cpp" />
+    <ClCompile Include="variable\variableinstancenameandidmap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="animation\animation.h" />
+    <ClInclude Include="animation\animationinstance.h" />
+    <ClInclude Include="animation\mainlinekey.h" />
+    <ClInclude Include="animation\mainlinekeyinstance.h" />
+    <ClInclude Include="charactermap\charactermap.h" />
+    <ClInclude Include="charactermap\charactermapinstruction.h" />
+    <ClInclude Include="charactermap\charactermapinterface.h" />
+    <ClInclude Include="entity\entity.h" />
+    <ClInclude Include="entity\entityinstance.h" />
+    <ClInclude Include="entity\entityinstancedata.h" />
+    <ClInclude Include="entity\object.h" />
+    <ClInclude Include="file\file.h" />
+    <ClInclude Include="file\filereference.h" />
+    <ClInclude Include="global\global.h" />
+    <ClInclude Include="global\settings.h" />
+    <ClInclude Include="loading\loader.h" />
+    <ClInclude Include="loading\loadinghelpers.h" />
+    <ClInclude Include="loading\spriterdocumentloader.h" />
+    <ClInclude Include="model\spritermodel.h" />
+    <ClInclude Include="objectinfo\angleinfo.h" />
+    <ClInclude Include="objectinfo\boneinstanceinfo.h" />
+    <ClInclude Include="objectinfo\boneobjectinfo.h" />
+    <ClInclude Include="objectinfo\boxinstanceinfo.h" />
+    <ClInclude Include="objectinfo\boxobjectinfo.h" />
+    <ClInclude Include="objectinfo\entityobjectinfo.h" />
+    <ClInclude Include="objectinfo\intvariableinfo.h" />
+    <ClInclude Include="objectinfo\pointinstanceinfo.h" />
+    <ClInclude Include="objectinfo\pointobjectinfo.h" />
+    <ClInclude Include="objectinfo\realvariableinfo.h" />
+    <ClInclude Include="objectinfo\soundobjectinfo.h" />
+    <ClInclude Include="objectinfo\spriteobjectinfo.h" />
+    <ClInclude Include="objectinfo\stringvariableinfo.h" />
+    <ClInclude Include="objectinfo\stringvariableinforeference.h" />
+    <ClInclude Include="objectinfo\taglist.h" />
+    <ClInclude Include="objectinfo\tagobjectinfo.h" />
+    <ClInclude Include="objectinfo\tagobjectinforeference.h" />
+    <ClInclude Include="objectinfo\triggerobjectinfo.h" />
+    <ClInclude Include="objectinfo\universalobjectinterface.h" />
+    <ClInclude Include="objectref\bonerefinstance.h" />
+    <ClInclude Include="objectref\boneref.h" />
+    <ClInclude Include="objectref\entityref.h" />
+    <ClInclude Include="objectref\entityrefinstance.h" />
+    <ClInclude Include="objectref\objectref.h" />
+    <ClInclude Include="objectref\objectrefinstance.h" />
+    <ClInclude Include="objectref\spriterefinstance.h" />
+    <ClInclude Include="objectref\spriteref.h" />
+    <ClInclude Include="objectref\transformprocessor.h" />
+    <ClInclude Include="override\filefactory.h" />
+    <ClInclude Include="override\imagefile.h" />
+    <ClInclude Include="override\objectfactory.h" />
+    <ClInclude Include="override\soundfile.h" />
+    <ClInclude Include="override\soundobjectinforeference.h" />
+    <ClInclude Include="override\spriterfileattributewrapper.h" />
+    <ClInclude Include="override\spriterfiledocumentwrapper.h" />
+    <ClInclude Include="override\spriterfileelementwrapper.h" />
+    <ClInclude Include="spriterengine.h" />
+    <ClInclude Include="timeinfo\beziereasingcurve.h" />
+    <ClInclude Include="timeinfo\cubiceasingcurve.h" />
+    <ClInclude Include="timeinfo\easingcurveinterface.h" />
+    <ClInclude Include="timeinfo\instanteasingcurve.h" />
+    <ClInclude Include="timeinfo\lineareasingcurve.h" />
+    <ClInclude Include="timeinfo\quadraticeasingcurve.h" />
+    <ClInclude Include="timeinfo\quarticeasingcurve.h" />
+    <ClInclude Include="timeinfo\quinticeasingcurve.h" />
+    <ClInclude Include="timeinfo\timeinfo.h" />
+    <ClInclude Include="timeline\proxytimelinekey.h" />
+    <ClInclude Include="timeline\soundtimelineinstance.h" />
+    <ClInclude Include="timeline\tagtimelineinstance.h" />
+    <ClInclude Include="timeline\timeline.h" />
+    <ClInclude Include="timeline\timelineinstance.h" />
+    <ClInclude Include="timeline\timelinekey.h" />
+    <ClInclude Include="timeline\triggertimelineinstance.h" />
+    <ClInclude Include="timeline\variabletimelineinstance.h" />
+    <ClInclude Include="variable\variable.h" />
+    <ClInclude Include="variable\variablecontainer.h" />
+    <ClInclude Include="variable\variableinstancenameandidmap.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

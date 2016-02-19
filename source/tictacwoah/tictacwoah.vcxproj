@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{067B5AD2-FD38-41D0-807C-099612A820F8}</ProjectGuid>
+    <RootNamespace>tictacwoah</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>..\..\temp\code\$(ProjectName)\$(Platform)_$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\test\</OutDir>
+    <IncludePath>$(SolutionDir)engine;$(SolutionDir)thirdparty;$(SolutionDir)thirdparty\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)thirdparty\lib;$(SolutionDir)lib\$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>..\..\temp\code\$(ProjectName)\$(Platform)_$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\game\</OutDir>
+    <IncludePath>$(SolutionDir)engine;$(SolutionDir)thirdparty;$(SolutionDir)thirdparty\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)thirdparty\lib;$(SolutionDir)lib\$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\lib\SDL;$(SolutionDir)lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /d /e /i /y "$(SolutionDir)..\data" "$(OutDir)"
+xcopy /d /y "$(SolutionDir)thirdparty\dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\lib\SDL;$(SolutionDir)lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /d /e /i /y "$(SolutionDir)..\data" "$(OutDir)"
+xcopy /d /y "$(SolutionDir)thirdparty\dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="logic\gamegrid.cpp" />
+    <ClCompile Include="logic\tictaclogic.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="screens\components\board.cpp" />
+    <ClCompile Include="screens\difficultypopup.cpp" />
+    <ClCompile Include="screens\gamescreen.cpp" />
+    <ClCompile Include="screens\mainmenu.cpp" />
+    <ClCompile Include="screens\pausemenu.cpp" />
+    <ClCompile Include="tictacview.cpp" />
+    <ClCompile Include="tictaccontroller.cpp" />
+    <ClCompile Include="tictacwoahapp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="events\commandevents.h" />
+    <ClInclude Include="events\gameevents.h" />
+    <ClInclude Include="logic\constants.h" />
+    <ClInclude Include="logic\gamegrid.h" />
+    <ClInclude Include="logic\tictaclogic.h" />
+    <ClInclude Include="screens\components\board.h" />
+    <ClInclude Include="screens\difficultypopup.h" />
+    <ClInclude Include="screens\gamescreen.h" />
+    <ClInclude Include="screens\mainmenu.h" />
+    <ClInclude Include="screens\pausemenu.h" />
+    <ClInclude Include="tictacview.h" />
+    <ClInclude Include="tictaccontroller.h" />
+    <ClInclude Include="tictacwoahapp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\engine\engine.vcxproj">
+      <Project>{84f73846-173d-4fb8-8b70-bb80777da2ba}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
