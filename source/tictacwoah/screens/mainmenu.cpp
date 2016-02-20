@@ -4,7 +4,7 @@
 #include <app\debug\logging.h>
 #include <view\ui\core\image.h>
 #include <view\ui\core\button.h>
-#include <view\ui\containers\verticalmenu.h>
+#include "components\verticalmenu.h"
 
 #include "..\tictacwoahapp.h"
 #include "..\logic\tictaclogic.h"
@@ -98,6 +98,7 @@ void MainMenu::Basic()
 {
 	// Set the mode to basic and show the difficulty popup
 	((TicTacWoahApp*)gApp)->logic.SetMode(TicTacLogic::BASIC);
+	gApp->Audio.PlaySound("audio/sfx/select.wav");
 	gApp->GetHumanView()->ShowPopup("DifficultyPopup");
 }
 
@@ -105,6 +106,7 @@ void MainMenu::Recursion()
 {
 	// Set the mode to big board and show the difficulty popup
 	((TicTacWoahApp*)gApp)->logic.SetMode(TicTacLogic::RECURSION);
+	gApp->Audio.PlaySound("audio/sfx/select.wav");
 	gApp->GetHumanView()->ShowPopup("DifficultyPopup");
 }
 
@@ -112,6 +114,7 @@ void MainMenu::BigBoard()
 {
 	// Set the mode to big board and show the difficulty popup
 	((TicTacWoahApp*)gApp)->logic.SetMode(TicTacLogic::BIGBOARD);
+	gApp->Audio.PlaySound("audio/sfx/select.wav");
 	gApp->GetHumanView()->ShowPopup("DifficultyPopup");
 }
 
@@ -119,17 +122,20 @@ void MainMenu::Ninja()
 {
 	// Set the mode to ninja and show the difficulty popup
 	((TicTacWoahApp*)gApp)->logic.SetMode(TicTacLogic::NINJA);
+	gApp->Audio.PlaySound("audio/sfx/select.wav");
 	gApp->GetHumanView()->ShowPopup("DifficultyPopup");
 }
 
 void MainMenu::Options()
 {
+	gApp->Audio.PlaySound("audio/sfx/select.wav");
 	//TODO: Change to the options screen
 	(*this)["mainmenu"]->Move(rand() % 500, rand() % 500, 200);
 }
 
 void MainMenu::Quit()
 {
+	gApp->Audio.PlaySound("audio/sfx/select.wav");
 	SDL_Event ev;
 	ev.type = SDL_QUIT;
 	SDL_PushEvent(&ev);

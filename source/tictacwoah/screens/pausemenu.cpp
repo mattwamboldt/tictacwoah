@@ -4,7 +4,7 @@
 #include <app\debug\logging.h>
 #include <view\ui\core\image.h>
 #include <view\ui\core\button.h>
-#include <view\ui\containers\verticalmenu.h>
+#include "components\verticalmenu.h"
 
 const char* pauseoptionnames[] = {
 	"RESUME",
@@ -81,6 +81,7 @@ void PauseMenu::Create()
 
 void PauseMenu::Resume()
 {
+	gApp->Audio.PlaySound("audio/sfx/select.wav");
 	gApp->GetHumanView()->HidePopup();
 }
 
@@ -101,11 +102,13 @@ void PauseMenu::Music(float value)
 
 void PauseMenu::QuitToMain()
 {
+	gApp->Audio.PlaySound("audio/sfx/select.wav");
 	gApp->GetHumanView()->ChangeScreen("MainMenu");
 }
 
 void PauseMenu::Quit()
 {
+	gApp->Audio.PlaySound("audio/sfx/select.wav");
 	SDL_Event ev;
 	ev.type = SDL_QUIT;
 	SDL_PushEvent(&ev);

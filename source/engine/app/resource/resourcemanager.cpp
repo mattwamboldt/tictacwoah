@@ -19,6 +19,13 @@ void ResourceManager::Clear()
 	}
 
 	mFonts.clear();
+
+	for (MixChunkMap::iterator it = mMixChunks.begin(); it != mMixChunks.end(); ++it)
+	{
+		Mix_FreeChunk(it->second);
+	}
+
+	mMixChunks.clear();
 }
 
 SDL_Texture* ResourceManager::GetTexture(std::string filename)
@@ -87,4 +94,31 @@ TTF_Font* ResourceManager::GetFont(std::string filename, int size)
 	}
 
 	return font;
+}
+
+
+Mix_Chunk* ResourceManager::GetSFX(std::string filename)
+{
+	if (gApp->Options.UseDevDirectory)
+	{
+		filename = "../data/" + filename;
+	}
+
+	MixChunkMap::iterator it = mMixChunks.find(filename);
+	if (it != mMixChunks.end())
+	{
+		return it->second;
+	}
+
+	Mix_Chunk* sound = Mix_LoadWAV(filename.c_str());
+	if (sound == NULL)
+	{
+		printf("Failed to load sound %s! Error: %s\n", Mix_GetError());
+	}
+	else
+	{
+		mMixChunks[filename] = sound;
+	}
+
+	return sound;
 }

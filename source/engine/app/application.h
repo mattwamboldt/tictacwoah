@@ -17,6 +17,7 @@ Basically anything not related to the game itself
 #include <unordered_map>
 #include "event\eventmanager.h"
 #include "../view/ui/core/text.h"
+#include "audio\audiosystem.h"
 
 enum Language
 {
@@ -44,6 +45,7 @@ public:
 	bool SetLanguage(Language language);
 
 	GameOptions Options;
+	AudioSystem Audio;
 
 	HumanView* GetHumanView(){ return (HumanView*)mView; }
 
@@ -60,6 +62,7 @@ protected:
 	std::unordered_map<std::string, std::string> mStringTable;
 
 	EventManager mEventSystem;
+	
 
 	// FPS COUNTER
 	int mFrameCount;

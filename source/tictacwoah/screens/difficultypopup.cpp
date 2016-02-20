@@ -4,7 +4,7 @@
 #include <app\debug\logging.h>
 #include <view\ui\core\image.h>
 #include <view\ui\core\button.h>
-#include <view\ui\containers\verticalmenu.h>
+#include "components\verticalmenu.h"
 
 #include "..\tictacwoahapp.h"
 #include "..\logic\tictaclogic.h"
@@ -93,6 +93,7 @@ void DifficultyPopup::StartEasy()
 	TicTacLogic& logic = ((TicTacWoahApp*)gApp)->logic;
 	logic.SetDifficulty(TicTacLogic::EASY);
 	logic.CreateGame();
+	gApp->Audio.PlaySound("audio/sfx/select.wav");
 	gApp->GetHumanView()->ChangeScreen("GameScreen");
 }
 
@@ -101,6 +102,7 @@ void DifficultyPopup::StartMedium()
 	TicTacLogic& logic = ((TicTacWoahApp*)gApp)->logic;
 	logic.SetDifficulty(TicTacLogic::MEDIUM);
 	logic.CreateGame();
+	gApp->Audio.PlaySound("audio/sfx/select.wav");
 	gApp->GetHumanView()->ChangeScreen("GameScreen");
 }
 
@@ -109,5 +111,6 @@ void DifficultyPopup::StartHard()
 	TicTacLogic& logic = ((TicTacWoahApp*)gApp)->logic;
 	logic.SetDifficulty(TicTacLogic::HARD);
 	logic.CreateGame();
+	gApp->Audio.PlaySound("audio/sfx/select.wav");
 	gApp->GetHumanView()->ChangeScreen("GameScreen");
 }

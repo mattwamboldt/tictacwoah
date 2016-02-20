@@ -60,7 +60,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\lib\SDL;$(SolutionDir)lib\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2_mixer.lib;engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
@@ -82,7 +82,7 @@ xcopy /d /y "$(SolutionDir)thirdparty\dll" "$(OutDir)"</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\lib\SDL;$(SolutionDir)lib\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2_mixer.lib;engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
@@ -95,6 +95,7 @@ xcopy /d /y "$(SolutionDir)thirdparty\dll" "$(OutDir)"</Command>
     <ClCompile Include="logic\tictaclogic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="screens\components\board.cpp" />
+    <ClCompile Include="screens\components\verticalmenu.cpp" />
     <ClCompile Include="screens\difficultypopup.cpp" />
     <ClCompile Include="screens\gamescreen.cpp" />
     <ClCompile Include="screens\mainmenu.cpp" />
@@ -110,6 +111,7 @@ xcopy /d /y "$(SolutionDir)thirdparty\dll" "$(OutDir)"</Command>
     <ClInclude Include="logic\gamegrid.h" />
     <ClInclude Include="logic\tictaclogic.h" />
     <ClInclude Include="screens\components\board.h" />
+    <ClInclude Include="screens\components\verticalmenu.h" />
     <ClInclude Include="screens\difficultypopup.h" />
     <ClInclude Include="screens\gamescreen.h" />
     <ClInclude Include="screens\mainmenu.h" />

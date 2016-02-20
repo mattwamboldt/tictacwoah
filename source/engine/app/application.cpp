@@ -1,5 +1,4 @@
 #include "application.h"
-#include "audio/audio.h"
 #include "resource\resourcemanager.h"
 
 #include "SDL/SDL_image.h"
@@ -68,23 +67,11 @@ bool Application::Init()
 	SDL_RenderSetLogicalSize(mRenderer, Options.ScreenSize.x, Options.ScreenSize.y);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
-	SDL_AudioSpec wanted;
-	wanted.freq = FREQUENCY;
-	wanted.format = AUDIO_S8;
-	wanted.channels = 1;    /* 1 = mono, 2 = stereo */
-	wanted.samples = SAMPLE_RATE;  /* Good low-latency value for callback */
-	wanted.callback = audioCallback;
-	wanted.userdata = NULL;
-
-	/* Open the audio device, forcing the desired format */
-	if (SDL_OpenAudio(&wanted, NULL) < 0)
+	if (!Audio.Init())
 	{
-		Debug::console("Couldn't open audio: %s\n", SDL_GetError());
 		return false;
 	}
 
-	InitAudio();
-	SDL_PauseAudio(0);
 	TTF_Init();
 
 	// create the fps counter
@@ -183,8 +170,7 @@ void Application::Shutdown()
 		}
 
 		IMG_Quit();
-		DestroyAudio();
-		SDL_CloseAudio();
+		Audio.Destroy();
 		SDL_DestroyRenderer(mRenderer);
 		SDL_DestroyWindow(mWindow);
 		SDL_Quit();

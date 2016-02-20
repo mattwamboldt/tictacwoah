@@ -1,7 +1,7 @@
 #ifndef SCREEN_MENU_H
 #define SCREEN_MENU_H
 
-#include "../core/screenobjectcontainer.h"
+#include <view\ui\core\screenobjectcontainer.h>
 
 class VerticalMenu : public ScreenObjectContainer
 {

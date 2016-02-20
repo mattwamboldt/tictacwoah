@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="app\application.h" />
     <ClInclude Include="app\audio\audio.h" />
+    <ClInclude Include="app\audio\audiosystem.h" />
     <ClInclude Include="app\core\math\vector.h" />
     <ClInclude Include="app\core\timer.h" />
     <ClInclude Include="app\debug\logging.h" />
@@ -43,7 +44,6 @@
     <ClInclude Include="view\render\spriter\xmlwrapper\tinyxmlspriterfileelementwrapper.h" />
     <ClInclude Include="view\render\ui\console.h" />
     <ClInclude Include="view\render\ui\textbox.h" />
-    <ClInclude Include="view\ui\containers\verticalmenu.h" />
     <ClInclude Include="view\ui\core\button.h" />
     <ClInclude Include="view\ui\core\image.h" />
     <ClInclude Include="view\ui\core\screenobject.h" />
@@ -55,6 +55,7 @@
   <ItemGroup>
     <ClCompile Include="app\application.cpp" />
     <ClCompile Include="app\audio\audio.cpp" />
+    <ClCompile Include="app\audio\audiosystem.cpp" />
     <ClCompile Include="app\core\math\vector.cpp" />
     <ClCompile Include="app\core\timer.cpp" />
     <ClCompile Include="app\debug\logging.cpp" />
@@ -77,7 +78,6 @@
     <ClCompile Include="view\render\spriter\xmlwrapper\tinyxmlspriterfileelementwrapper.cpp" />
     <ClCompile Include="view\render\ui\console.cpp" />
     <ClCompile Include="view\render\ui\textbox.cpp" />
-    <ClCompile Include="view\ui\containers\verticalmenu.cpp" />
     <ClCompile Include="view\ui\core\button.cpp" />
     <ClCompile Include="view\ui\core\image.cpp" />
     <ClCompile Include="view\ui\core\screenobject.cpp" />

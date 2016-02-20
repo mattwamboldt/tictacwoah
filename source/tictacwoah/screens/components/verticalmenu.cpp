@@ -1,4 +1,5 @@
 #include "verticalmenu.h"
+#include <app\application.h>
 #include <string>
 
 bool VerticalMenu::OnKeyPress(SDL_Keycode keycode)
@@ -19,6 +20,7 @@ bool VerticalMenu::OnKeyPress(SDL_Keycode keycode)
 	{
 		mChildren[previous]->SetFocus(false);
 		mChildren[mCurrentItem]->SetFocus(true);
+		gApp->Audio.PlaySound("audio/sfx/menu.wav");
 		return true;
 	}
 
@@ -29,11 +31,12 @@ void VerticalMenu::OnFocusChanged()
 {
 	// Update the focused item to the one that stole focus
 	// TODO: Focus management is something that should be handled better but for now this will do
-	for (int i = 1; i < NumChildren(); ++i)
+	for (int i = 0; i < NumChildren(); ++i)
 	{
 		if (mChildren[i]->HasFocus())
 		{
-			mCurrentItem = i - 1;
+			mCurrentItem = i;
+			gApp->Audio.PlaySound("audio/sfx/menu.wav");
 			return;
 		}
 	}
