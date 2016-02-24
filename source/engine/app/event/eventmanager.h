@@ -7,11 +7,12 @@
 #include <unordered_map>
 #include <memory>
 
-typedef std::shared_ptr<IEvent> IEventPtr;
-typedef fastdelegate::FastDelegate1<IEventPtr> EventListener;
+typedef fastdelegate::FastDelegate1<IEvent*> EventListener;
 
 const unsigned int NUM_EVENT_QUEUES = 2;
 
+// We use objects as our event mechanism so we can pass state around
+// These objects are pointers only because we need to store them in a queue together
 class EventManager
 {
 public:
@@ -27,11 +28,13 @@ public:
     bool RemoveListener(const EventListener& listener, const EventType& type);
 
     // Calls the listeners for the event, bypassing the queuing mechanism
-    bool Trigger(const IEventPtr& eventData) const;
+	// This will also delete the event
+	bool Trigger(IEvent* eventData);
 
     // Queues up an event to be fired off on the next update
     // This mechanism takes running time into account and makes sure we don't get caught in endless event handling
-    bool Queue(const IEventPtr& eventData);
+	// The event manager will delete the event once all listeners are triggered, so don't hang on to it
+    bool Queue(IEvent* eventData);
 
     // Removes the first event of the given type from the queue, or all of the given type if that's enabled
     // Returns whether any events are removed or not, safe to call up to the point when the event is being processed
@@ -48,7 +51,7 @@ public:
 private:
     typedef std::list<EventListener> ListenerList;
     typedef std::unordered_map<EventType, ListenerList> ListenerMap;
-    typedef std::list<IEventPtr> EventQueue;
+    typedef std::list<IEvent*> EventQueue;
 
     ListenerMap mListeners;
 

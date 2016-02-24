@@ -2,6 +2,8 @@
 #include "components\board.h"
 #include <view\ui\core\image.h>
 #include <app\application.h>
+#include "../events/gameevents.h"
+#include <app/event/eventmanager.h>
 
 GameScreen::GameScreen(TicTacLogic* logic)
 {
@@ -20,6 +22,14 @@ void GameScreen::Create()
 	board->Dimensions(500, 500);
 	board->Position((Width() - board->Width()) / 2, (Height() - board->Height()) / 2);
 	AddChild("board", board);
+
+	// Register for events
+	EventManager::Get()->AddListener(fastdelegate::MakeDelegate(this, &GameScreen::OnMatchComplete), MatchCompleteEvent::Type);
+}
+
+void GameScreen::OnMatchComplete(IEvent* eventData)
+{
+	gApp->GetHumanView()->ShowPopup("EndGamePopup");
 }
 
 bool GameScreen::OnKeyPress(SDL_Keycode keycode)
@@ -31,4 +41,10 @@ bool GameScreen::OnKeyPress(SDL_Keycode keycode)
 	}
 
 	return Screen::OnKeyPress(keycode);
+}
+
+void GameScreen::Display()
+{
+	Screen::Display();
+	gApp->Audio.PlayMusic("audio/music/captaincrunch.ogg");
 }

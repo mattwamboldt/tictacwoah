@@ -15,7 +15,11 @@
  <string id="OPT_SFX_VOLUME" value="SFX" />
  <string id="RESUME" value="Resume" />
  <string id="QUIT_TO_MAIN" value="Quit to Menu" />
+ <string id="REPLAY" value="Play Again" />
  
+ <string id="MATCH_WIN" value="VICTORY!" />
+ <string id="MATCH_LOSE" value="YOU LOSE!" />
+ <string id="MATCH_DRAW" value="DRAW?" />
  
  <!-- Pre match screen -->
  <string id="DIFFICULTY_TITLE" value="Choose Difficulty" />

@@ -51,8 +51,6 @@ void PauseMenu::Create()
 		button->SetTextOffset(25, 0);
 		button->Position(position.x, position.y);
 
-		position.y += 50;
-
 		// Every menu button has a callback
 		switch (i)
 		{

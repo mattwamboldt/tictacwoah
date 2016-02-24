@@ -1,6 +1,8 @@
 #include "tictaclogic.h"
 #include <app\application.h>
 #include "constants.h"
+#include <app/event/eventmanager.h>
+#include "../events/gameevents.h"
 
 TicTacLogic::TicTacLogic()
 {
@@ -103,13 +105,11 @@ void TicTacLogic::Select(int x, int y, int player)
 			// Check for the final win/tie
 			if (HasWon(mMasterGrid))
 			{
-				mState = GS_ENDGAME;
-				mWinner = mCurrentPlayer;
+				EndGame(mCurrentPlayer);
 			}
 			else if (mNumOccupied[9] >= mMasterGrid.Size())
 			{
-				mState = GS_ENDGAME;
-				mWinner = NO_ONE;
+				EndGame();
 			}
 		}
 		// For now all modes are basic until coded
@@ -118,14 +118,11 @@ void TicTacLogic::Select(int x, int y, int player)
 			mNumOccupied[0]++;
 			if (HasWon(mGrid))
 			{
-				mState = GS_ENDGAME;
-				mWinner = mCurrentPlayer;
-				return;
+				EndGame(mCurrentPlayer);
 			}
 			else if (mNumOccupied[0] >= mGrid.Size())
 			{
-				mState = GS_ENDGAME;
-				mWinner = NO_ONE;
+				EndGame();
 			}
 		}
 
@@ -142,6 +139,13 @@ void TicTacLogic::Select(int x, int y, int player)
 			}
 		}
 	}
+}
+
+void TicTacLogic::EndGame(int winner)
+{
+	mState = GS_ENDGAME;
+	mWinner = winner;
+	EventManager::Get()->Queue(new MatchCompleteEvent(mWinner));
 }
 
 bool TicTacLogic::IsValidMove(int x, int y, int player)

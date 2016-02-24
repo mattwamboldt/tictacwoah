@@ -38,7 +38,7 @@ void MainMenu::Create()
 	AddChild("mainmenu", mainMenu);
 
 	// Add our menu items, these are offset along an angle
-	Point position = { 0, 0 };
+	int xPosition = 0;
 
 	for (int i = 0; i < NUM_MAINMENUITEMS; ++i)
 	{
@@ -51,10 +51,8 @@ void MainMenu::Create()
 
 		button->Dimensions(200, 40);
 		button->SetTextOffset(35, 0);
-		button->Position(position.x, position.y);
-
-		position.x -= 7;
-		position.y += 50;
+		button->X(xPosition);
+		xPosition -= 7;
 
 		// Every menu button has a callback
 		switch (i)
@@ -92,6 +90,12 @@ void MainMenu::Create()
 	}
 
 	mCreated = true;
+}
+
+void MainMenu::Display()
+{
+	Screen::Display();
+	gApp->Audio.PlayMusic("audio/music/calmdown.ogg");
 }
 
 void MainMenu::Basic()

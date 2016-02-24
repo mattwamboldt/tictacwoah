@@ -69,7 +69,7 @@ bool Application::Init()
 
 	if (!Audio.Init())
 	{
-		return false;
+		//return false;
 	}
 
 	TTF_Init();

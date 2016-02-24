@@ -2,6 +2,7 @@
 #define TICTACLOGIC_H
 
 #include "gamegrid.h"
+#include "constants.h"
 
 // Holds game state and contains logic to create and run the game
 // Several of these functions are from an earlier event based tic tac toe game
@@ -41,6 +42,8 @@ public:
 	void Select(int x, int y, int player);
 	void TogglePause();
 
+	void EndGame(int winner = NO_ONE);
+
 	bool IsValidMove(int x, int y, int player);
 
 	// Getters/Setters
@@ -60,6 +63,7 @@ public:
 	int BoardHeight() { return mGrid.Height(); }
 
 	int CurrentPlayer(){ return mCurrentPlayer; }
+	int GetWinner(){ return mWinner; }
 
 private:
 	bool HasWon(const GameGrid& grid, int startX = 0, int startY = 0);

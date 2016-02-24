@@ -9,6 +9,7 @@ class MainMenu : public Screen
 {
 public:
 	virtual void Create();
+	virtual void Display();
 
 	// Menu callbacks
 	void Basic();

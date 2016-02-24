@@ -1,6 +1,7 @@
 #include "resourcemanager.h"
 #include "../application.h"
 #include "SDL/SDL_image.h"
+#include <app\debug\logging.h>
 
 ResourceManager* ResourceManager::gInstance = NULL;
 
@@ -26,6 +27,13 @@ void ResourceManager::Clear()
 	}
 
 	mMixChunks.clear();
+
+	for (MixMusicMap::iterator it = mMixMusics.begin(); it != mMixMusics.end(); ++it)
+	{
+		Mix_FreeMusic(it->second);
+	}
+
+	mMixMusics.clear();
 }
 
 SDL_Texture* ResourceManager::GetTexture(std::string filename)
@@ -48,7 +56,7 @@ SDL_Texture* ResourceManager::GetTexture(std::string filename)
 	SDL_Surface* loadedSurface = IMG_Load(filename.c_str());
 	if (loadedSurface == NULL)
 	{
-		printf("Unable to load image %s! SDL_image Error: %s\n", filename.c_str(), IMG_GetError());
+		Debug::console("Unable to load image %s! SDL_image Error: %s\n", filename.c_str(), IMG_GetError());
 	}
 	else
 	{
@@ -56,7 +64,7 @@ SDL_Texture* ResourceManager::GetTexture(std::string filename)
 		newTexture = SDL_CreateTextureFromSurface(gApp->Renderer(), loadedSurface);
 		if (newTexture == NULL)
 		{
-			printf("Unable to create texture from %s! SDL Error: %s\n", filename.c_str(), SDL_GetError());
+			Debug::console("Unable to create texture from %s! SDL Error: %s\n", filename.c_str(), SDL_GetError());
 		}
 		else
 		{
@@ -86,7 +94,7 @@ TTF_Font* ResourceManager::GetFont(std::string filename, int size)
 	TTF_Font* font = TTF_OpenFont(filename.c_str(), size);
 	if (font == NULL)
 	{
-		printf("Failed to load font %s! Error: %s\n", TTF_GetError());
+		Debug::console("Failed to load font %s! Error: %s\n", filename.c_str(), TTF_GetError());
 	}
 	else
 	{
@@ -113,7 +121,7 @@ Mix_Chunk* ResourceManager::GetSFX(std::string filename)
 	Mix_Chunk* sound = Mix_LoadWAV(filename.c_str());
 	if (sound == NULL)
 	{
-		printf("Failed to load sound %s! Error: %s\n", Mix_GetError());
+		Debug::console("Failed to load sound %s! Error: %s\n", filename.c_str(), Mix_GetError());
 	}
 	else
 	{
@@ -121,4 +129,30 @@ Mix_Chunk* ResourceManager::GetSFX(std::string filename)
 	}
 
 	return sound;
+}
+
+Mix_Music* ResourceManager::GetMusic(std::string filename)
+{
+	if (gApp->Options.UseDevDirectory)
+	{
+		filename = "../data/" + filename;
+	}
+
+	MixMusicMap::iterator it = mMixMusics.find(filename);
+	if (it != mMixMusics.end())
+	{
+		return it->second;
+	}
+
+	Mix_Music* music = Mix_LoadMUS(filename.c_str());
+	if (music == NULL)
+	{
+		Debug::console("Failed to load music %s! Error: %s\n", filename.c_str(), Mix_GetError());
+	}
+	else
+	{
+		mMixMusics[filename] = music;
+	}
+
+	return music;
 }

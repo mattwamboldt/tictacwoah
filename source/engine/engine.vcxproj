@@ -28,7 +28,6 @@
     <ClInclude Include="app\util\macros.h" />
     <ClInclude Include="logic\igamelogic.h" />
     <ClInclude Include="view\human\humanview.h" />
-    <ClInclude Include="view\igameview.h" />
     <ClInclude Include="view\render\2d\displayobject.h" />
     <ClInclude Include="view\render\color.h" />
     <ClInclude Include="view\render\spriter\file\filefactory.h" />
@@ -49,6 +48,7 @@
     <ClInclude Include="view\ui\core\screenobject.h" />
     <ClInclude Include="view\ui\core\screenobjectcontainer.h" />
     <ClInclude Include="view\ui\core\text.h" />
+    <ClInclude Include="view\igameview.h" />
     <ClInclude Include="view\ui\screen\screen.h" />
     <ClInclude Include="view\ui\screen\screenmanager.h" />
   </ItemGroup>

@@ -5,6 +5,7 @@
 #include "screens\difficultypopup.h"
 #include "screens\gamescreen.h"
 #include "screens\pausemenu.h"
+#include "screens\endgamepopup.h"
 
 TicTacWoahView::TicTacWoahView()
 {
@@ -12,5 +13,6 @@ TicTacWoahView::TicTacWoahView()
 	mScreenManager.AddScreen("DifficultyPopup", new DifficultyPopup());
 	mScreenManager.AddScreen("PauseMenu", new PauseMenu());
 	mScreenManager.AddScreen("GameScreen", new GameScreen(&(((TicTacWoahApp*)gApp)->logic ))); // I know...
+	mScreenManager.AddScreen("EndGamePopup", new EndGamePopup(&(((TicTacWoahApp*)gApp)->logic))); // I know...
 	mScreenManager.ChangeScreen("MainMenu");
 }

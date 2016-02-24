@@ -91,12 +91,14 @@ xcopy /d /y "$(SolutionDir)thirdparty\dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="events\gameevents.cpp" />
     <ClCompile Include="logic\gamegrid.cpp" />
     <ClCompile Include="logic\tictaclogic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="screens\components\board.cpp" />
     <ClCompile Include="screens\components\verticalmenu.cpp" />
     <ClCompile Include="screens\difficultypopup.cpp" />
+    <ClCompile Include="screens\endgamepopup.cpp" />
     <ClCompile Include="screens\gamescreen.cpp" />
     <ClCompile Include="screens\mainmenu.cpp" />
     <ClCompile Include="screens\pausemenu.cpp" />
@@ -105,7 +107,6 @@ xcopy /d /y "$(SolutionDir)thirdparty\dll" "$(OutDir)"</Command>
     <ClCompile Include="tictacwoahapp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="events\commandevents.h" />
     <ClInclude Include="events\gameevents.h" />
     <ClInclude Include="logic\constants.h" />
     <ClInclude Include="logic\gamegrid.h" />
@@ -113,6 +114,7 @@ xcopy /d /y "$(SolutionDir)thirdparty\dll" "$(OutDir)"</Command>
     <ClInclude Include="screens\components\board.h" />
     <ClInclude Include="screens\components\verticalmenu.h" />
     <ClInclude Include="screens\difficultypopup.h" />
+    <ClInclude Include="screens\endgamepopup.h" />
     <ClInclude Include="screens\gamescreen.h" />
     <ClInclude Include="screens\mainmenu.h" />
     <ClInclude Include="screens\pausemenu.h" />

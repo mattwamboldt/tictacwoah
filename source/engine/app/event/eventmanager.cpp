@@ -19,7 +19,16 @@ EventManager::EventManager(const char* name, bool setAsGlobal)
 
 EventManager::~EventManager()
 {
-
+	// Delete all the generated events
+	for (int i = 0; i < NUM_EVENT_QUEUES; ++i)
+	{
+		while (!mQueues[i].empty())
+		{
+			IEvent* eventData = mQueues[i].front();
+			mQueues[i].pop_front();
+			delete eventData;
+		}
+	}
 }
 
 bool EventManager::AddListener(const EventListener& listener, const EventType& type)
@@ -59,7 +68,7 @@ bool EventManager::RemoveListener(const EventListener& listener, const EventType
     return false;
 }
 
-bool EventManager::Trigger(const IEventPtr& eventData) const
+bool EventManager::Trigger(IEvent* eventData)
 {
     bool handled = false;
     auto mapIter = mListeners.find(eventData->GetType());
@@ -74,10 +83,11 @@ bool EventManager::Trigger(const IEventPtr& eventData) const
         }
     }
 
+	delete eventData;
     return handled;
 }
 
-bool EventManager::Queue(const IEventPtr& eventData)
+bool EventManager::Queue(IEvent* eventData)
 {
     // TODO: Throw some asserts about the active queue here
 
@@ -133,7 +143,7 @@ bool EventManager::Update(unsigned long maxTime)
     // Process the current queue as much as possible
     while (!mQueues[currentQueue].empty())
     {
-        IEventPtr eventData = mQueues[currentQueue].front();
+        IEvent* eventData = mQueues[currentQueue].front();
         mQueues[currentQueue].pop_front();
 
         Trigger(eventData);
@@ -154,7 +164,7 @@ bool EventManager::Update(unsigned long maxTime)
     {
         while (!mQueues[currentQueue].empty())
         {
-            IEventPtr eventData = mQueues[currentQueue].back();
+            IEvent* eventData = mQueues[currentQueue].back();
             mQueues[currentQueue].pop_back();
             mQueues[mActiveQueue].push_front(eventData);
         }

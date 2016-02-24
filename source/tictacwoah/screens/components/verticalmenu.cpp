@@ -2,6 +2,13 @@
 #include <app\application.h>
 #include <string>
 
+VerticalMenu::VerticalMenu()
+{
+	mCurrentItem = 0;
+	mMargin = 10;
+	Dimensions(0, 0);
+}
+
 bool VerticalMenu::OnKeyPress(SDL_Keycode keycode)
 {
 	int previous = mCurrentItem;
@@ -44,6 +51,18 @@ void VerticalMenu::OnFocusChanged()
 
 void VerticalMenu::AddChild(ScreenObject* item)
 {
+	int numChildren = NumChildren();
+	if (numChildren != 0)
+	{
+		item->Y(Height() + mMargin);
+		Height(item->Y() + item->Height());
+	}
+	else
+	{
+		item->Y(0);
+		Height(item->Height());
+	}
+
 	std::string name = "menuitem";
 	name += NumChildren();
 	ScreenObjectContainer::AddChild(name, item);

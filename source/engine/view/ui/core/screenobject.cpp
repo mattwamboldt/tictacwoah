@@ -89,7 +89,7 @@ int ScreenObject::Width()
 
 void ScreenObject::Height(int height)
 {
-	mBounds.y = height;
+	mBounds.h = height;
 }
 
 int ScreenObject::Height()

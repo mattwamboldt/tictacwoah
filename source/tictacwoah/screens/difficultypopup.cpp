@@ -61,7 +61,6 @@ void DifficultyPopup::Create()
 
 		mediumbutton->Dimensions(200, 40);
 		mediumbutton->SetTextOffset(25, 0);
-		mediumbutton->Y(50);
 		mediumbutton->SetPressHandler(fastdelegate::MakeDelegate(this, &DifficultyPopup::StartMedium));
 		mediumbutton->SetFocusGainHandler(fastdelegate::MakeDelegate(difficultyMenu, &VerticalMenu::OnFocusChanged));
 
@@ -78,7 +77,6 @@ void DifficultyPopup::Create()
 
 		hardbutton->Dimensions(200, 40);
 		hardbutton->SetTextOffset(25, 0);
-		hardbutton->Y(100);
 		hardbutton->SetPressHandler(fastdelegate::MakeDelegate(this, &DifficultyPopup::StartHard));
 		hardbutton->SetFocusGainHandler(fastdelegate::MakeDelegate(difficultyMenu, &VerticalMenu::OnFocusChanged));
 
