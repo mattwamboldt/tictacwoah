@@ -15,3 +15,4 @@ game/strings
 *.pdb
 test/*.dll
 test/tictacwoah.exe
+*.ilk

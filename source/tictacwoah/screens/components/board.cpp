@@ -11,15 +11,55 @@ Board::Board(TicTacLogic* logic)
 	mFadeTexture = ResourceManager::Get()->GetTexture("images/fade.png");
 }
 
+void Board::Init()
+{
+	mMasterLine.Visible(false);
+	mLines.clear();
+	mTileSize = { Width() / mLogic->BoardWidth(), Height() / mLogic->BoardHeight() };
+
+	// We're likley to have uneven bounds so better to adjust this now
+	mBounds.w = mTileSize.x * mLogic->BoardWidth();
+	mBounds.h = mTileSize.y * mLogic->BoardHeight();
+
+	// Each mode has a different draw color
+	switch (mLogic->GetMode())
+	{
+	case TicTacLogic::BASIC:
+		mColor.r = 200;
+		mColor.g = 0;
+		mColor.b = 200;
+		break;
+
+	case TicTacLogic::BIGBOARD:
+		mColor.r = 0;
+		mColor.g = 200;
+		mColor.b = 200;
+		break;
+
+	case TicTacLogic::RECURSION:
+		mColor.r = 100;
+		mColor.g = 200;
+		mColor.b = 0;
+		break;
+
+	case TicTacLogic::NINJA:
+		mColor.r = 200;
+		mColor.g = 200;
+		mColor.b = 0;
+		break;
+
+	default:
+		mColor.r = 0;
+		mColor.g = 0;
+		mColor.b = 0;
+		break;
+	}
+}
+
 void Board::Render(int parentX, int parentY)
 {
 	SDL_Renderer* screen = gApp->Renderer();
 	Point boardPosition = { mBounds.x + parentX, mBounds.y + parentY };
-	Point tileSize = { Width() / mLogic->BoardWidth(), Height() / mLogic->BoardHeight() };
-
-	// We're likley to have uneven bounds so better to adjust this now
-	mBounds.w = tileSize.x * mLogic->BoardWidth();
-	mBounds.h = tileSize.y * mLogic->BoardHeight();
 
 	// This is where each thing gets rendered to
 	SDL_Rect destRect = { boardPosition.x, boardPosition.y, mBounds.w, mBounds.h };
@@ -29,8 +69,8 @@ void Board::Render(int parentX, int parentY)
 	SDL_RenderFillRect(screen, &destRect);
 
 	// First we draw the inhabitants
-	destRect.w = tileSize.x;
-	destRect.h = tileSize.y;
+	destRect.w = mTileSize.x;
+	destRect.h = mTileSize.y;
 
 	for (int ty = 0; ty < mLogic->BoardHeight(); ++ty)
 	{
@@ -41,8 +81,8 @@ void Board::Render(int parentX, int parentY)
 			// Don't draw nothing
 			if (occupant == NO_ONE) continue;
 
-			destRect.x = boardPosition.x + tileSize.x * tx;
-			destRect.y = boardPosition.y + tileSize.y * ty;
+			destRect.x = boardPosition.x + mTileSize.x * tx;
+			destRect.y = boardPosition.y + mTileSize.y * ty;
 			
 			// Set the color for the given player, eventually this will be a texture
 			if (occupant == PLAYER1)
@@ -59,49 +99,33 @@ void Board::Render(int parentX, int parentY)
 				SDL_RenderFillRect(screen, &destRect);
 			}
 		}
-	}
-
-	// Each mode has a different draw color, we'll move this to a one time place later, but for now
-	switch (mLogic->GetMode())
-	{
-	case TicTacLogic::BASIC:
-		SDL_SetRenderDrawColor(screen, 200, 0, 200, 255);
-		break;
-
-	case TicTacLogic::BIGBOARD:
-		SDL_SetRenderDrawColor(screen, 0, 200, 200, 255);
-		break;
-
-	case TicTacLogic::RECURSION:
-		SDL_SetRenderDrawColor(screen, 100, 200, 0, 255);
-		break;
-
-	case TicTacLogic::NINJA:
-		SDL_SetRenderDrawColor(screen, 200, 200, 0, 255);
-		break;
-
-	default:
-		SDL_SetRenderDrawColor(screen, 0, 0, 0, 255);
-		break;
-	}
+	}	
 
 	// Then the grid lines
+	SDL_SetRenderDrawColor(screen, mColor.r, mColor.g, mColor.b, 255);
+
 	for (int ty = 0; ty <= mLogic->BoardHeight(); ++ty)
 	{
-		int y = boardPosition.y + ty * tileSize.y;
-		SDL_RenderDrawLine(screen, boardPosition.x, y, boardPosition.x + mLogic->BoardWidth() * tileSize.x, y);
+		int y = boardPosition.y + ty * mTileSize.y;
+		SDL_RenderDrawLine(screen, boardPosition.x, y, boardPosition.x + mLogic->BoardWidth() * mTileSize.x, y);
 	}
 
 	for (int tx = 0; tx <= mLogic->BoardWidth(); ++tx)
 	{
-		int x = boardPosition.x + tx * tileSize.x;
-		SDL_RenderDrawLine(screen, x, boardPosition.y, x, boardPosition.y + mLogic->BoardHeight() * tileSize.y);
+		int x = boardPosition.x + tx * mTileSize.x;
+		SDL_RenderDrawLine(screen, x, boardPosition.y, x, boardPosition.y + mLogic->BoardHeight() * mTileSize.y);
+	}
+
+	// Then the completed lines
+	for (auto iter = mLines.begin(); iter != mLines.end(); ++iter)
+	{
+		iter->second.Render(boardPosition.x, boardPosition.y);
 	}
 
 	// In recursion we want to draw a fader over any completed master grid tiles, and draw those tiles
 	if (mLogic->GetMode() == TicTacLogic::RECURSION)
 	{
-		Point masterTileSize = { tileSize.x * 3, tileSize.y * 3 };
+		Point masterTileSize = { mTileSize.x * 3, mTileSize.y * 3 };
 		destRect.w = masterTileSize.x;
 		destRect.h = masterTileSize.y;
 
@@ -135,13 +159,18 @@ void Board::Render(int parentX, int parentY)
 		for (int ty = 0; ty <= 3; ++ty)
 		{
 			int y = boardPosition.y + ty * masterTileSize.y;
-			SDL_RenderDrawLine(screen, boardPosition.x, y, boardPosition.x + mLogic->BoardWidth() * tileSize.x, y);
+			SDL_RenderDrawLine(screen, boardPosition.x, y, boardPosition.x + mLogic->BoardWidth() * mTileSize.x, y);
 		}
 
 		for (int tx = 0; tx <= 3; ++tx)
 		{
 			int x = boardPosition.x + tx * masterTileSize.x;
-			SDL_RenderDrawLine(screen, x, boardPosition.y, x, boardPosition.y + mLogic->BoardHeight() * tileSize.y);
+			SDL_RenderDrawLine(screen, x, boardPosition.y, x, boardPosition.y + mLogic->BoardHeight() * mTileSize.y);
+		}
+
+		if (mMasterLine.Visible())
+		{
+			mMasterLine.Render(boardPosition.x, boardPosition.y);
 		}
 	}
 
@@ -160,10 +189,10 @@ void Board::Render(int parentX, int parentY)
 
 	if (isMouseOverGrid && isTileEnabled)
 	{
-		destRect.x = mPointerCoords.x * tileSize.x + boardPosition.x;
-		destRect.y = mPointerCoords.y * tileSize.y + boardPosition.y;
-		destRect.w = tileSize.x;
-		destRect.h = tileSize.y;
+		destRect.x = mPointerCoords.x * mTileSize.x + boardPosition.x;
+		destRect.y = mPointerCoords.y * mTileSize.y + boardPosition.y;
+		destRect.w = mTileSize.x;
+		destRect.h = mTileSize.y;
 		SDL_SetRenderDrawColor(screen, 255, 255, 255, 255);
 		SDL_RenderDrawRect(screen, &destRect);
 	}
@@ -230,4 +259,27 @@ bool Board::OnButtonPress(Uint8 button)
 bool Board::OnButtonRelease(Uint8 button)
 {
 	return false;
+}
+
+void Board::AddLine(const Line& line, bool masterGrid)
+{
+	if (masterGrid)
+	{
+		mMasterLine = ScreenLine(line, Point(mTileSize.x * 3, mTileSize.y * 3));
+		mMasterLine.Visible(true);
+	}
+	else
+	{
+		mLines[line.id] = ScreenLine(line, mTileSize);
+	}
+}
+
+void Board::ChangeLine(const Line& line)
+{
+	mLines[line.id].Change(line);
+}
+
+void Board::RemoveLine(int lineId)
+{
+	mLines.erase(lineId);
 }

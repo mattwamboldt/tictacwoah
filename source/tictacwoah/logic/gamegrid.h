@@ -19,13 +19,16 @@ public:
 
 	int Size() const { return mWidth * mHeight; }
 
-	//!!! Completely unsafe direct accessor
-	int& operator[](int index){ return mOccupants[index]; }
+	// UNSAFE, make sure to check bounds manually
+	int& operator[](int index) { return mOccupants[index]; }
+	int operator[](int index) const { return mOccupants[index]; }
+
+	int Count(int occupant) const;
 
 private:
 	std::vector<int> mOccupants;
+
 	int mWidth, mHeight;
-	int mNumOccupied;
 };
 
 #endif

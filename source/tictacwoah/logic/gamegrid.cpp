@@ -31,3 +31,17 @@ void GameGrid::Set(int x, int y, int value)
 		mOccupants[x + y * mWidth] = value;
 	}
 }
+
+int GameGrid::Count(int occupant) const
+{
+	int count = 0;
+	for (int i = 0; i < mOccupants.size(); ++i)
+	{
+		if (mOccupants[i] == occupant)
+		{
+			++count;
+		}
+	}
+
+	return count;
+}

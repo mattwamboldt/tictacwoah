@@ -3,6 +3,7 @@
 
 #include "gamegrid.h"
 #include "constants.h"
+#include "linescanner.h"
 
 // Holds game state and contains logic to create and run the game
 // Several of these functions are from an earlier event based tic tac toe game
@@ -65,8 +66,29 @@ public:
 	int CurrentPlayer(){ return mCurrentPlayer; }
 	int GetWinner(){ return mWinner; }
 
+	void OnLineFound(GameGrid* grid, const Line& line);
+	void TicTacLogic::OnLineFoundBasic(GameGrid* grid, const Line& line);
+
+	int GetScore(int playerId);
+
+	void RunAI();
+
 private:
 	bool HasWon(const GameGrid& grid, int startX = 0, int startY = 0);
+
+	// Scoring system functions for ninja mode
+	void ScoreHandleLineMade(const Line& line);
+	void ScoreHandleLineExtended(const Line& oldline, const Line& newline);
+	void ScoreHandleLineMerge(const Line& line);
+	void IncreaseScore(int player, int amount);
+	void AddLine(const GameGrid* grid, const Line& line);
+
+	bool MakeLine(Point& move);
+	void RandomMove(Point& move);
+
+	int RandomFree(const GameGrid& grid);
+
+	bool IsDraw(const GameGrid& grid) const;
 
 	Mode mMode;
 	Difficulty mDifficulty;
@@ -83,8 +105,16 @@ private:
 	// Used to tell if a board is full, ie tied, we have 10 to track the sub boards in recursion mode
 	int mNumOccupied[10];
 
-	// Used in Recursive mode to track overall progress
+	// Used in Recursive Mode
+	GameGrid mSubGrids[9];
 	GameGrid mMasterGrid;
+
+	LineScanner mScanner;
+	int mPlayer1Score;
+	int mPlayer2Score;
+	std::vector<Line> mLines;
+
+	static int NextAvailableID;
 };
 
 #endif

@@ -4,6 +4,8 @@
 #include <app/event/eventmanager.h>
 #include "../events/gameevents.h"
 
+int TicTacLogic::NextAvailableID = 1;
+
 TicTacLogic::TicTacLogic()
 {
 	mCurrentPlayer = NO_ONE;
@@ -22,13 +24,27 @@ void TicTacLogic::CreateGame()
 	if (mMode == BASIC)
 	{
 		mGrid.Init(3, 3);
+		mScanner.Init(&mGrid, fastdelegate::MakeDelegate(this, &TicTacLogic::OnLineFoundBasic), ALL);
 	}
 	else
 	{
-		mGrid.Init(9, 9);
 		if (mMode == RECURSION)
 		{
+			mGrid.Init(9, 9);
 			mMasterGrid.Init(3, 3);
+			mScanner.Init(&mMasterGrid, fastdelegate::MakeDelegate(this, &TicTacLogic::OnLineFoundBasic), ALL);
+			for (int i = 0; i < 9; ++i)
+			{
+				mSubGrids[i].Init(3, 3);
+			}
+		}
+		else
+		{
+			mGrid.Init(9, 9);
+			mScanner.Init(&mGrid, fastdelegate::MakeDelegate(this, &TicTacLogic::OnLineFound), ALL);
+			mPlayer1Score = 0;
+			mPlayer2Score = 0;
+			mLines.clear();
 		}
 	}
 
@@ -41,6 +57,13 @@ void TicTacLogic::CreateGame()
 	mCurrentPlayer = PLAYER1;
 
 	mState = GS_RUNNING;
+
+	EventManager::Get()->Queue(new CreateGameEvent());
+}
+
+bool TicTacLogic::IsDraw(const GameGrid& grid) const
+{
+	return mState == GS_RUNNING && grid.Count(PLAYER1) + grid.Count(PLAYER2) >= grid.Size();
 }
 
 void TicTacLogic::Select(int x, int y, int player)
@@ -59,6 +82,9 @@ void TicTacLogic::Select(int x, int y, int player)
 			Point masterCoords = { x / 3, y / 3 };
 
 			int subBoard = masterCoords.x + masterCoords.y * 3;
+
+			// We only update the subboards for the ai for now
+			mSubGrids[subBoard].Set(x - masterCoords.x * 3, y - masterCoords.y * 3, mCurrentPlayer);
 			mNumOccupied[subBoard]++;
 
 			// check a subboard win
@@ -69,7 +95,7 @@ void TicTacLogic::Select(int x, int y, int player)
 				mMasterGrid.Set(masterCoords.x, masterCoords.y, mCurrentPlayer);
 				mNumOccupied[9]++;
 			}
-			else if (mNumOccupied[subBoard] >= 9)
+			else if (IsDraw(mSubGrids[subBoard]))
 			{
 				// How do we break a tie...
 				int p1Count = 0;
@@ -102,27 +128,42 @@ void TicTacLogic::Select(int x, int y, int player)
 				mNumOccupied[9]++;
 			}
 
-			// Check for the final win/tie
-			if (HasWon(mMasterGrid))
-			{
-				EndGame(mCurrentPlayer);
-			}
-			else if (mNumOccupied[9] >= mMasterGrid.Size())
+			mScanner.Run();
+
+			if (IsDraw(mMasterGrid))
 			{
 				EndGame();
 			}
 		}
-		// For now all modes are basic until coded
-		else
+		else if (mMode == BASIC)
 		{
-			mNumOccupied[0]++;
-			if (HasWon(mGrid))
-			{
-				EndGame(mCurrentPlayer);
-			}
-			else if (mNumOccupied[0] >= mGrid.Size())
+			mScanner.Run();
+			
+			// Check a draw
+			if (IsDraw(mGrid))
 			{
 				EndGame();
+			}
+		}
+		// big board and ninja have the same rules
+		else
+		{
+			mScanner.Run();
+
+			if (IsDraw(mGrid))
+			{
+				if (mPlayer1Score > mPlayer2Score)
+				{
+					EndGame(PLAYER1);
+				}
+				else if (mPlayer1Score < mPlayer2Score)
+				{
+					EndGame(PLAYER2);
+				}
+				else
+				{
+					EndGame();
+				}
 			}
 		}
 
@@ -132,6 +173,7 @@ void TicTacLogic::Select(int x, int y, int player)
 			if (mCurrentPlayer == PLAYER1)
 			{
 				mCurrentPlayer = PLAYER2;
+				RunAI();
 			}
 			else
 			{
@@ -195,14 +237,29 @@ void TicTacLogic::SetItemsEnabled(bool enabled)
 	mItemEnabled = enabled;
 }
 
+int TicTacLogic::GetScore(int playerId)
+{
+	if (playerId == PLAYER1) return mPlayer1Score;
+	if (playerId == PLAYER2) return mPlayer2Score;
+	return 0;
+}
+
 // I know There are a bunch of double checks here, but This honestly isn't where efficiency matters as much as clarity
 bool TicTacLogic::HasWon(const GameGrid& grid, int startX, int startY)
 {
+	Line win;
+	win.length = 3;
+	win.owner = mCurrentPlayer;
+
 	// Hoizontal
 	for (int y = startY; y < startY + 3; ++y)
 	{
 		if (grid.Get(startX, y) == mCurrentPlayer && grid.Get(startX + 1, y) == mCurrentPlayer && grid.Get(startX + 2, y) == mCurrentPlayer)
 		{
+			win.direction = HORIZONTAL;
+			win.start.x = startX;
+			win.start.y = y;
+			AddLine(&grid, win);
 			return true;
 		}
 	}
@@ -212,6 +269,10 @@ bool TicTacLogic::HasWon(const GameGrid& grid, int startX, int startY)
 	{
 		if (grid.Get(x, startY) == mCurrentPlayer && grid.Get(x, startY + 1) == mCurrentPlayer && grid.Get(x, startY + 2) == mCurrentPlayer)
 		{
+			win.direction = VERTICAL;
+			win.start.x = x;
+			win.start.y = startY;
+			AddLine(&grid, win);
 			return true;
 		}
 	}
@@ -219,14 +280,194 @@ bool TicTacLogic::HasWon(const GameGrid& grid, int startX, int startY)
 	// Diagonal Win Upper Left to Bottom Right
 	if (grid.Get(startX, startY) == mCurrentPlayer && grid.Get(startX + 1, startY + 1) == mCurrentPlayer && grid.Get(startX + 2, startY + 2) == mCurrentPlayer)
 	{
+		win.direction = DOWN_RIGHT;
+		win.start.x = startX;
+		win.start.y = startY;
+		AddLine(&grid, win);
 		return true;
 	}
 
 	// Diagonal Win Upper Right to Bottom Left
 	if (grid.Get(startX + 2, startY) == mCurrentPlayer && grid.Get(startX + 1, startY + 1) == mCurrentPlayer && grid.Get(startX, startY + 2) == mCurrentPlayer)
 	{
+		win.direction = DOWN_LEFT;
+		win.start.x = startX + 2;
+		win.start.y = startY;
+		AddLine(&grid, win);
 		return true;
 	}
 
 	return false;
+}
+
+void TicTacLogic::OnLineFoundBasic(GameGrid* grid, const Line& line)
+{
+	if (line.length >= 3)
+	{
+		EventManager::Get()->Queue(new LineEvent(line, OBJECT_CREATED, mMode == RECURSION ? 1 : 0));
+		EndGame(line.owner);
+	}
+}
+
+void TicTacLogic::OnLineFound(GameGrid* grid, const Line& line)
+{
+	if (line.length >= 3)
+	{
+		std::vector<int> overlappingLines;
+
+		// Find out if this is extending an existing line, is a new one, or is merging multiple
+		// We need to do this before deleting any lines, because the count effects
+		// how we handle things
+		for (std::vector<Line>::iterator iter = mLines.begin(); iter != mLines.end(); ++iter)
+		{
+			const Line& currentLine = *iter;
+			if (currentLine == line)
+			{
+				return;
+			}
+			else if (line.Overlaps(currentLine))
+			{
+				overlappingLines.push_back(currentLine.id);
+			}
+		}
+
+		// If it doesn't overlap existing lines than it's a new line
+		if (overlappingLines.size() == 0)
+		{
+			AddLine(grid, line);
+		}
+		// If it just overlaps one than we're extending an existing line
+		else if (overlappingLines.size() == 1)
+		{
+			// I know this is inefficient but trying to get stuff done
+			for (int i = 0; i < mLines.size(); ++i)
+			{
+				if (mLines[i].id == overlappingLines[0])
+				{
+					Line& existingLine = mLines[i];
+					ScoreHandleLineExtended(existingLine, line);
+
+					existingLine.start = line.start;
+					existingLine.length = line.length;
+					EventManager::Get()->Queue(new LineEvent(existingLine, OBJECT_MODIFIED));
+					break;
+				}
+			}
+		}
+		// Otherwise we're merging lines
+		else
+		{
+			// Again, stupid inefficient, but we never have that many to deal with anyway
+			for (int i = 0; i < overlappingLines.size(); ++i)
+			{
+				for (auto iter = mLines.begin(); iter != mLines.end(); ++iter)
+				{
+					if ((*iter).id == overlappingLines[i])
+					{
+						mLines.erase(iter);
+						break;
+					}
+				}
+			}
+
+			mLines.push_back(line);
+			Line& newLine = mLines[mLines.size() - 1];
+			newLine.id = NextAvailableID;
+			++NextAvailableID;
+			ScoreHandleLineMerge(line);
+			EventManager::Get()->Queue(new LineMergeEvent(newLine, overlappingLines));
+		}
+	}
+}
+
+void TicTacLogic::AddLine(const GameGrid* grid, const Line& line)
+{
+	mLines.push_back(line);
+	Line& newline = mLines[mLines.size() - 1];
+	newline.id = NextAvailableID;
+	++NextAvailableID;
+	ScoreHandleLineMade(newline);
+	int id = 0;
+	if (grid == &mMasterGrid) id = 1;
+	EventManager::Get()->Queue(new LineEvent(newline, OBJECT_CREATED, id));
+}
+
+void TicTacLogic::IncreaseScore(int player, int amount)
+{
+	if (player == PLAYER1)
+	{
+		mPlayer1Score += amount;
+		EventManager::Get()->Queue(new ScoreChangeEvent(PLAYER1, mPlayer1Score));
+	}
+	else
+	{
+		mPlayer2Score += amount;
+		EventManager::Get()->Queue(new ScoreChangeEvent(PLAYER2, mPlayer2Score));
+	}
+}
+
+void TicTacLogic::ScoreHandleLineMade(const Line& line)
+{
+	IncreaseScore(line.owner, 30);
+}
+
+void TicTacLogic::ScoreHandleLineExtended(const Line& oldline, const Line& newline)
+{
+	IncreaseScore(newline.owner, (newline.length - oldline.length) * 20);
+}
+
+void TicTacLogic::ScoreHandleLineMerge(const Line& line)
+{
+	IncreaseScore(line.owner, line.length * 50);
+}
+
+int TicTacLogic::RandomFree(const GameGrid& grid)
+{
+	int randomIndex = rand() % grid.Size();
+	int functionalIndex = 0;
+	while (randomIndex > 0 || grid[functionalIndex] != NO_ONE)
+	{
+		if (grid[functionalIndex] == NO_ONE)
+		{
+			--randomIndex;
+		}
+
+		functionalIndex = (functionalIndex + 1) % grid.Size();
+	}
+
+	return functionalIndex;
+}
+
+bool TicTacLogic::MakeLine(Point& move)
+{
+	return false;
+}
+
+void TicTacLogic::RandomMove(Point& move)
+{
+	if (mMode == RECURSION)
+	{
+		int masterIndex = RandomFree(mMasterGrid);
+		int subIndex = RandomFree(mSubGrids[masterIndex]);
+		move.x = (masterIndex % 3) * 3 + (subIndex % 3);
+		move.y = (masterIndex / 3) * 3 + (subIndex / 3);
+	}
+	else
+	{
+		int randomIndex = RandomFree(mGrid);
+		move.x = randomIndex % mGrid.Width();
+		move.y = randomIndex / mGrid.Width();
+	}
+}
+
+void TicTacLogic::RunAI()
+{
+	if (mState != GS_RUNNING) return;
+
+	Point move;
+
+	// At a base level, we always make a random move
+	RandomMove(move);
+
+	Select(move.x, move.y, PLAYER2);
 }

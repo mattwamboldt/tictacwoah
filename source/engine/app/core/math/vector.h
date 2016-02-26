@@ -27,6 +27,11 @@ struct Point
 
 	int x;
 	int y;
+
+	bool operator==(const Point& rval) const 
+	{
+		return x == rval.x && y == rval.y;
+	}
 };
 
 #endif

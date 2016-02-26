@@ -3,14 +3,16 @@
 
 #include <view\ui\core\screenobject.h>
 #include "..\..\logic\tictaclogic.h"
+#include "screenline.h"
+#include <unordered_map>
 
 // This is a hard coded tic tac toe board, We'll be changing it as
 // time goes on and maybe some genric stuff can get pulled later
-
 class Board : public ScreenObject
 {
 public:
 	Board(TicTacLogic* logic);
+	void Init();
 
 	virtual void Render(int parentX = 0, int parentY = 0);
 
@@ -24,6 +26,10 @@ public:
 	virtual bool OnButtonPress(Uint8 button);
 	virtual bool OnButtonRelease(Uint8 button);
 
+	void AddLine(const Line& line, bool masterGrid = false);
+	void ChangeLine(const Line& line);
+	void RemoveLine(int lineId);
+
 private:
 	void UpdatePointer(int x, int y);
 
@@ -35,6 +41,10 @@ private:
 
 	// Where the mouse is on the board;
 	Point mPointerCoords;
+	Point mTileSize;
+
+	std::unordered_map<int, ScreenLine> mLines;
+	ScreenLine mMasterLine;
 };
 
 #endif
