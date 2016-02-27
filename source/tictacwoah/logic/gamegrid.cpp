@@ -35,7 +35,7 @@ void GameGrid::Set(int x, int y, int value)
 int GameGrid::Count(int occupant) const
 {
 	int count = 0;
-	for (int i = 0; i < mOccupants.size(); ++i)
+	for (unsigned int i = 0; i < mOccupants.size(); ++i)
 	{
 		if (mOccupants[i] == occupant)
 		{
@@ -44,4 +44,9 @@ int GameGrid::Count(int occupant) const
 	}
 
 	return count;
+}
+
+Point GameGrid::ToCoordinates(int index) const
+{
+	return Point(index % mWidth, index / mHeight);
 }

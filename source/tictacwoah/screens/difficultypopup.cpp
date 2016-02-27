@@ -23,11 +23,6 @@ void DifficultyPopup::Create()
 	Point HalfScreen = { gApp->Options.ScreenSize.x / 2, gApp->Options.ScreenSize.y / 2 };
 	Position(HalfScreen.x - Width() / 2, HalfScreen.y - Height() / 2);
 
-	// TODO: Make this an image
-	ScreenObject* backing = new ScreenObject();
-	backing->Dimensions(Width(), Height());
-	AddChild("background", backing);
-
 	// Create our menu
 	VerticalMenu* difficultyMenu = new VerticalMenu();
 	difficultyMenu->Position(100, 100);

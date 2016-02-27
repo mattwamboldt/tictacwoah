@@ -69,14 +69,17 @@ void EndGamePopup::Display()
 	if (mLogic->GetWinner() == PLAYER1)
 	{
 		mTitle->SetText(gApp->GetText("MATCH_WIN"));
+		gApp->Audio.PlaySound("audio/sfx/victory.wav");
 	}
 	else if (mLogic->GetWinner() == PLAYER2)
 	{
 		mTitle->SetText(gApp->GetText("MATCH_LOSE"));
+		gApp->Audio.PlaySound("audio/sfx/loss.wav");
 	}
 	else
 	{
 		mTitle->SetText(gApp->GetText("MATCH_DRAW"));
+		gApp->Audio.PlaySound("audio/sfx/draw.wav");
 	}
 
 	Screen::Display();

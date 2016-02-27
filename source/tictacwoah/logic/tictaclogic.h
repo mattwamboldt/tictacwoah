@@ -40,7 +40,7 @@ public:
 
 	// This creates the board and does any setup for the game
 	void CreateGame();
-	void Select(int x, int y, int player);
+	bool Select(int x, int y, int player);
 	void TogglePause();
 
 	void EndGame(int winner = NO_ONE);
@@ -67,7 +67,7 @@ public:
 	int GetWinner(){ return mWinner; }
 
 	void OnLineFound(GameGrid* grid, const Line& line);
-	void TicTacLogic::OnLineFoundBasic(GameGrid* grid, const Line& line);
+	void OnLineFoundBasic(GameGrid* grid, const Line& line);
 
 	int GetScore(int playerId);
 
@@ -80,13 +80,9 @@ private:
 	void ScoreHandleLineMade(const Line& line);
 	void ScoreHandleLineExtended(const Line& oldline, const Line& newline);
 	void ScoreHandleLineMerge(const Line& line);
+
 	void IncreaseScore(int player, int amount);
 	void AddLine(const GameGrid* grid, const Line& line);
-
-	bool MakeLine(Point& move);
-	void RandomMove(Point& move);
-
-	int RandomFree(const GameGrid& grid);
 
 	bool IsDraw(const GameGrid& grid) const;
 
@@ -102,9 +98,6 @@ private:
 	// Available in the modes that support them
 	bool mItemEnabled;
 
-	// Used to tell if a board is full, ie tied, we have 10 to track the sub boards in recursion mode
-	int mNumOccupied[10];
-
 	// Used in Recursive Mode
 	GameGrid mSubGrids[9];
 	GameGrid mMasterGrid;
@@ -115,6 +108,14 @@ private:
 	std::vector<Line> mLines;
 
 	static int NextAvailableID;
+
+	// ============
+	// AI Functions
+	// TODO: I know this should be separated, lesson learned for next time to architect a bit better
+	bool MakeLine(Point& move);
+	void RandomMove(Point& move);
+
+	int RandomFree(const GameGrid& grid);
 };
 
 #endif

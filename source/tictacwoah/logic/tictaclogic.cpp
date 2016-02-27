@@ -14,7 +14,6 @@ TicTacLogic::TicTacLogic()
 	mItemEnabled = false;
 	mState = GS_PREGAME;
 	mGrid.Init(3, 3);
-	mNumOccupied[0] = 0;
 }
 
 // This creates the board and does any setup for the game
@@ -48,11 +47,6 @@ void TicTacLogic::CreateGame()
 		}
 	}
 
-	for (int i = 0; i < 10; ++i)
-	{
-		mNumOccupied[i] = 0;
-	}
-
 	//TODO: Make this a coin toss
 	mCurrentPlayer = PLAYER1;
 
@@ -66,121 +60,92 @@ bool TicTacLogic::IsDraw(const GameGrid& grid) const
 	return mState == GS_RUNNING && grid.Count(PLAYER1) + grid.Count(PLAYER2) >= grid.Size();
 }
 
-void TicTacLogic::Select(int x, int y, int player)
+bool TicTacLogic::Select(int x, int y, int player)
 {
-	if (mState == GS_RUNNING && IsValidMove(x, y, player))
+	if (mState != GS_RUNNING || !IsValidMove(x, y, player)) return false;
+
+	// We set the current player for the checks below since in ninja you can jump in at any time
+	mCurrentPlayer = player;
+
+	// We need to update the base grid either way
+	mGrid.Set(x, y, mCurrentPlayer);
+
+	// Update our counts of occupied and unoccupied to detect draws, (May change draw code later to count player coverage as a tie breaker)
+	if (mMode == RECURSION)
 	{
-		// We set the current player for the checks below since in ninja you can jump in at any time
-		mCurrentPlayer = player;
+		Point masterCoords = { x / 3, y / 3 };
 
-		// We need to update the base grid either way
-		mGrid.Set(x, y, mCurrentPlayer);
+		int subBoard = masterCoords.x + masterCoords.y * 3;
+		GameGrid& subGrid = mSubGrids[subBoard];
 
-		// Update our counts of occupied and unoccupied to detect draws, (May change draw code later to count player coverage as a tie breaker)
-		if (mMode == RECURSION)
+		// We only update the subboards for the ai for now
+		subGrid.Set(x - masterCoords.x * 3, y - masterCoords.y * 3, mCurrentPlayer);
+
+		// check a subboard win
+		Point subBoardRoot = { masterCoords.x * 3, masterCoords.y * 3 };
+		if (HasWon(mGrid, subBoardRoot.x, subBoardRoot.y))
 		{
-			Point masterCoords = { x / 3, y / 3 };
-
-			int subBoard = masterCoords.x + masterCoords.y * 3;
-
-			// We only update the subboards for the ai for now
-			mSubGrids[subBoard].Set(x - masterCoords.x * 3, y - masterCoords.y * 3, mCurrentPlayer);
-			mNumOccupied[subBoard]++;
-
-			// check a subboard win
-			Point subBoardRoot = { masterCoords.x * 3, masterCoords.y * 3 };
-			if (HasWon(mGrid, subBoardRoot.x, subBoardRoot.y))
-			{
-				// Set the master board
-				mMasterGrid.Set(masterCoords.x, masterCoords.y, mCurrentPlayer);
-				mNumOccupied[9]++;
-			}
-			else if (IsDraw(mSubGrids[subBoard]))
-			{
-				// How do we break a tie...
-				int p1Count = 0;
-				int p2Count = 0;
-				for (int y = subBoardRoot.y; y < subBoardRoot.y + 3; ++y)
-				{
-					for (int x = subBoardRoot.x; x < subBoardRoot.x + 3; ++x)
-					{
-						if (mGrid.Get(x, y) == PLAYER1)
-						{
-							p1Count++;
-						}
-						else
-						{
-							p2Count++;
-						}
-					}
-				}
-
-				// By giving it to the player who has the most territory
-				if (p1Count > p2Count)
-				{
-					mMasterGrid.Set(masterCoords.x, masterCoords.y, PLAYER1);
-				}
-				else
-				{
-					mMasterGrid.Set(masterCoords.x, masterCoords.y, PLAYER2);
-				}
-
-				mNumOccupied[9]++;
-			}
-
-			mScanner.Run();
-
-			if (IsDraw(mMasterGrid))
-			{
-				EndGame();
-			}
+			// Set the master board
+			mMasterGrid.Set(masterCoords.x, masterCoords.y, mCurrentPlayer);
 		}
-		else if (mMode == BASIC)
+		else if (IsDraw(subGrid))
 		{
-			mScanner.Run();
-			
-			// Check a draw
-			if (IsDraw(mGrid))
+			// How do we break a tie...
+			// By giving it to the player who has the most territory
+			if (subGrid.Count(PLAYER1) > subGrid.Count(PLAYER2))
 			{
-				EndGame();
-			}
-		}
-		// big board and ninja have the same rules
-		else
-		{
-			mScanner.Run();
-
-			if (IsDraw(mGrid))
-			{
-				if (mPlayer1Score > mPlayer2Score)
-				{
-					EndGame(PLAYER1);
-				}
-				else if (mPlayer1Score < mPlayer2Score)
-				{
-					EndGame(PLAYER2);
-				}
-				else
-				{
-					EndGame();
-				}
-			}
-		}
-
-		// Advance to the next player
-		if (mMode != NINJA)
-		{
-			if (mCurrentPlayer == PLAYER1)
-			{
-				mCurrentPlayer = PLAYER2;
-				RunAI();
+				mMasterGrid.Set(masterCoords.x, masterCoords.y, PLAYER1);
 			}
 			else
 			{
-				mCurrentPlayer = PLAYER1;
+				mMasterGrid.Set(masterCoords.x, masterCoords.y, PLAYER2);
 			}
 		}
 	}
+
+	mScanner.Run();
+
+	if (mMode == RECURSION)
+	{
+		if (IsDraw(mMasterGrid))
+		{
+			EndGame();
+		}
+	}
+	else if (IsDraw(mGrid))
+	{
+		int winner = NO_ONE;
+
+		if (mMode != BASIC)
+		{
+			if (mPlayer1Score > mPlayer2Score)
+			{
+				winner = PLAYER1;
+			}
+			else if (mPlayer1Score < mPlayer2Score)
+			{
+				winner = PLAYER2;
+			}
+		}
+
+		EndGame(winner);
+	}
+
+	// Advance to the next player
+	if (mMode != NINJA)
+	{
+		if (mCurrentPlayer == PLAYER1)
+		{
+			mCurrentPlayer = PLAYER2;
+			RunAI();
+		}
+		else
+		{
+			mCurrentPlayer = PLAYER1;
+		}
+	}
+
+	return true;
 }
 
 void TicTacLogic::EndGame(int winner)
@@ -340,7 +305,7 @@ void TicTacLogic::OnLineFound(GameGrid* grid, const Line& line)
 		else if (overlappingLines.size() == 1)
 		{
 			// I know this is inefficient but trying to get stuff done
-			for (int i = 0; i < mLines.size(); ++i)
+			for (unsigned int i = 0; i < mLines.size(); ++i)
 			{
 				if (mLines[i].id == overlappingLines[0])
 				{
@@ -358,7 +323,7 @@ void TicTacLogic::OnLineFound(GameGrid* grid, const Line& line)
 		else
 		{
 			// Again, stupid inefficient, but we never have that many to deal with anyway
-			for (int i = 0; i < overlappingLines.size(); ++i)
+			for (unsigned int i = 0; i < overlappingLines.size(); ++i)
 			{
 				for (auto iter = mLines.begin(); iter != mLines.end(); ++iter)
 				{
@@ -436,6 +401,11 @@ int TicTacLogic::RandomFree(const GameGrid& grid)
 	}
 
 	return functionalIndex;
+}
+
+bool TicTacLogic::BlockOpponent(Point& move)
+{
+	return false;
 }
 
 bool TicTacLogic::MakeLine(Point& move)

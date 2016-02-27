@@ -241,7 +241,12 @@ bool Board::OnPointerMove(int x, int y)
 bool Board::OnPointerButtonPress(int x, int y, Uint8 button)
 {
 	UpdatePointer(x, y);
-	mLogic->Select(mPointerCoords.x, mPointerCoords.y, mLogic->CurrentPlayer());
+	if (mLogic->Select(mPointerCoords.x, mPointerCoords.y, PLAYER1))
+	{
+		gApp->Audio.PlaySound("audio/sfx/placement.wav");
+		return true;
+	}
+
 	return false;
 }
 

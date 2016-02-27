@@ -64,7 +64,7 @@ void GameScreen::OnLine(IEvent* eventData)
 void GameScreen::OnLineMerge(IEvent* eventData)
 {
 	LineMergeEvent* mergeEvent = (LineMergeEvent*)eventData;
-	for (int i = 0; i < mergeEvent->ExistingLineIds.size(); ++i)
+	for (unsigned int i = 0; i < mergeEvent->ExistingLineIds.size(); ++i)
 	{
 		mBoard->RemoveLine(mergeEvent->ExistingLineIds[i]);
 	}

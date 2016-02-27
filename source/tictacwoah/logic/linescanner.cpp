@@ -171,7 +171,7 @@ void LineScanner::Scan(int x, int y, int xRatio, int yRatio, LineDirection direc
 	}
 
 	// We won't bother announcing an empty line
-	if (current.owner != NO_ONE)
+	if (current.owner != NO_ONE && current.owner != INVALID_POSITION)
 	{
 		mLineFound(mGrid, current);
 	}
