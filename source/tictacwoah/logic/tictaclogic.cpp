@@ -403,11 +403,6 @@ int TicTacLogic::RandomFree(const GameGrid& grid)
 	return functionalIndex;
 }
 
-bool TicTacLogic::BlockOpponent(Point& move)
-{
-	return false;
-}
-
 bool TicTacLogic::MakeLine(Point& move)
 {
 	return false;
