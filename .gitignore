@@ -1,0 +1,17 @@
+game/audio
+game/fonts
+game/images
+game/strings
+source/lib
+source/thirdparty/lib/spriterengine
+temp
+test/**/*.*
+test/*.dll
+test/tictacwoah.exe
+*.filters
+*.ilk
+*.opensdf
+*.pdb
+*.suo
+*.sdf
+*.user
