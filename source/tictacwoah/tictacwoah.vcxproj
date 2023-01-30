@@ -18,13 +18,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -39,16 +39,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IntDir>..\..\temp\code\$(ProjectName)\$(Platform)_$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)..\temp\code\$(ProjectName)\$(Platform)_$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\test\</OutDir>
     <IncludePath>$(SolutionDir)engine;$(SolutionDir)thirdparty;$(SolutionDir)thirdparty\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)thirdparty\lib;$(SolutionDir)lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)thirdparty\lib;$(SolutionDir)..\test\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IntDir>..\..\temp\code\$(ProjectName)\$(Platform)_$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)..\temp\code\$(ProjectName)\$(Platform)_$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\game\</OutDir>
     <IncludePath>$(SolutionDir)engine;$(SolutionDir)thirdparty;$(SolutionDir)thirdparty\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)thirdparty\lib;$(SolutionDir)lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)thirdparty\lib;$(SolutionDir)..\game\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -59,7 +59,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\lib\SDL;$(SolutionDir)lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\lib\SDL;$(SolutionDir)..\test\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2_mixer.lib;engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
@@ -81,7 +81,7 @@ xcopy /d /y "$(SolutionDir)thirdparty\dll" "$(OutDir)"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\lib\SDL;$(SolutionDir)lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\lib\SDL;$(SolutionDir)..\game\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2_mixer.lib;engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>

@@ -1,6 +1,7 @@
 #ifndef VARIABLEINSTANCENAMEANDIDMAP_H
 #define VARIABLEINSTANCENAMEANDIDMAP_H
 
+#include <string>
 #include <vector>
 #include <map>
 
